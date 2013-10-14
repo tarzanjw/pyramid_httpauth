@@ -86,6 +86,8 @@ class AuthPolicy(object):
                         pass
             else:
                 u = _u
+        if not u['roles']:
+            u['roles'] = ''
         return u
 
     def _get_current_user(self, request):
