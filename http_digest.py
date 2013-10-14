@@ -74,7 +74,6 @@ class HttpDigestAdapter(BaseAdapter):
         ha1 = hash_func("%s:%s:%s" % (self.username, realm, password))
         ha2 = hash_func("%s:%s" % (self.request.method.upper(), uri))
 
-        print 'qop', qop
         if qop is None:
             response = hash_func("%s:%s:%s" % (ha1, nonce, ha2))
         elif 'auth' in qop.split(','):
