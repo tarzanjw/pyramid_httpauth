@@ -89,6 +89,8 @@ class AuthPolicy(object):
                 u = _u
         if not u['roles']:
             u['roles'] = ''
+        if not isinstance(u['roles'], str):
+            u['roles'] = u['roles'].encode('utf-8')
         return u
 
     def _get_current_user(self, request):
