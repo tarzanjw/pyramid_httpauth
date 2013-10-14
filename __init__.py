@@ -5,6 +5,7 @@ from pyramid.response import Response
 import unicodedata
 import time
 import binascii
+from pyramid.security import Authenticated, Everyone
 
 class BaseAdapter(object):
     def __init__(self, request, get_user_callback):
@@ -115,7 +116,8 @@ class AuthPolicy(object):
         if user_id is None:
             return []
         user = self._get_current_user(request)
-        return re.split(r'[;,]', user['roles'])
+        roles = [Everyone, Authenticated] + re.split(r'[;,]', user['roles'])
+        return roles
 
     def remember(self, request, principal, **kw):
         return ()
