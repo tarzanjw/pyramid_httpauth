@@ -7,6 +7,7 @@ import re
 import unittest
 from pyramid import testing
 from pyramid.config import Configurator
+from pyramid.security import Everyone, Authenticated
 from . import AuthPolicy
 from webtest import TestApp
 from webob.descriptors import parse_auth
@@ -88,7 +89,7 @@ class AuthPolicyTest(unittest.TestCase):
         self.assertEqual(ap.authenticated_userid(request), 'gaia')
         self.assertSetEqual(
             set(ap.effective_principals(request)),
-            set(('titan', 'gaia'))
+            set(('titan', 'gaia', Everyone, Authenticated))
         )
 
         # test with exist user, incorrect password
@@ -283,4 +284,4 @@ class AuthPolicyTest(unittest.TestCase):
         self.assertEqual(ap.authenticated_userid(request), 'gaia')
         self.assertSetEqual(
             set(ap.effective_principals(request)),
-            set(['gaia','titan']))
+            set(['gaia','titan', Everyone, Authenticated]))
