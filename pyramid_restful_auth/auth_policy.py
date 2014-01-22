@@ -2,24 +2,11 @@ __author__ = 'tarzan'
 
 import re
 from pyramid.response import Response
-import unicodedata
-import time
-import binascii
 from pyramid.security import Authenticated, Everyone
 
-class BaseAdapter(object):
-    def __init__(self, request, get_user_callback):
-        self.request = request
-        self.get_user_callback = get_user_callback
-
-    def unauthenticated_userid(self):
-        return None
-
-    def authenticated_userid(self):
-        return None
-
-from http_basic import HttpBasicAdapter
-from http_digest import HttpDigestAdapter
+from pyramid_restful_auth.adapters import BaseAdapter
+from pyramid_restful_auth.adapters.http_basic import HttpBasicAdapter
+from pyramid_restful_auth.adapters.http_digest import HttpDigestAdapter
 
 class AuthPolicy(object):
     """

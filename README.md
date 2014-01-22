@@ -1,6 +1,19 @@
 Authentication Policy for Pyramid RESTful app
 =============================================
 
-Authentication policy for restful app
+Authentication policy for restful app. For more information please visit
+https://github.com/tarzanjw/pyramid_restful_auth
 
-I have no time to document this package, if you want to use it, feel free to contact my by [hoc3010@gmail.com](mailto:hoc3010@gmail.com)
+Usage
+---------------
+
+To use this package, in the app function, just include it.
+
+    config.include("pyramid_restful_auth")
+
+In you *development.ini*
+
+    restful_auth.dbsession = app.models.DBSession
+
+Use *pyramid_restful_auth.models.RESTfulUser* to manage your users. Its table
+name is *rest_user*

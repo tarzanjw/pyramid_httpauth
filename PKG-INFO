@@ -1,0 +1,41 @@
+Metadata-Version: 1.1
+Name: pyramid_restful_auth
+Version: 1.0
+Summary: pyramid_restful_auth
+Home-page: UNKNOWN
+Author: Tarzan
+Author-email: hoc3010@gmail.com
+License: UNKNOWN
+Description: Authentication Policy for Pyramid RESTful app
+        =============================================
+        
+        Authentication policy for restful app
+        
+        Usage
+        ---------------
+        
+        To use this package, in the app function, just include it.
+        
+            config.include("pyramid_restful_auth")
+        
+        In you *development.ini*
+        
+            restful_auth.dbsession = app.models.DBSession
+        
+        ### API
+        
+        Use *pyramid_restful_auth.models.RESTfulUser* to manage your users. Its table
+        name is *rest_user*
+        
+        
+        1.0
+        -----------
+        
+        * Allo
+        * Initial version
+Keywords: web wsgi bfg pylons pyramid
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Framework :: Pyramid
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application
