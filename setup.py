@@ -13,7 +13,7 @@ requires = [
     ]
 
 setup(name='pyramid_restful_auth',
-      version='1.0,1',
+      version='1.0.2',
       description='pyramid_restful_auth',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
