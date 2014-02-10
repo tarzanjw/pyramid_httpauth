@@ -52,7 +52,6 @@ def get_rest_user(username):
     user = DBSession.query(RESTfulUser).filter(
         RESTfulUser.username == username,
         RESTfulUser.enabled).first()
-    print user
     if user is not None:
         return {
             'id': user.id,
