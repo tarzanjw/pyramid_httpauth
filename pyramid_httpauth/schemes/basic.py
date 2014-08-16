@@ -23,7 +23,7 @@ class HttpBasicScheme(BaseScheme):
             try:
                 _token = base64.b64decode(params)
                 if six.PY3:
-                    _token = _token.decode('ascii')
+                    _token = _token.decode('utf-8')
                 username, password = _token.split(':', 1)
             except (ValueError, TypeError):
                 username, password = None, None
