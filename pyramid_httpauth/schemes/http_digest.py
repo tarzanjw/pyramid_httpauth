@@ -1,6 +1,6 @@
 __author__ = 'tarzan'
 
-from . import BaseAdapter
+from . import BaseScheme
 import base64
 import hashlib
 from pyramid.response import Response
@@ -9,7 +9,7 @@ import binascii
 import time
 import struct
 
-class HttpDigestAdapter(BaseAdapter):
+class HttpDigestScheme(BaseScheme):
 
     def _parse_authorization_token(self):
         try:

@@ -4,11 +4,11 @@ import re
 from pyramid.response import Response
 from pyramid.security import Authenticated, Everyone
 
-from pyramid_restful_auth.adapters import BaseAdapter
-from pyramid_restful_auth.adapters.http_basic import HttpBasicAdapter
-from pyramid_restful_auth.adapters.http_digest import HttpDigestAdapter
+from pyramid_httpauth.schemes import BaseScheme
+from pyramid_httpauth.schemes.http_basic import HttpBasicScheme
+from pyramid_httpauth.schemes.http_digest import HttpDigestScheme
 
-class AuthPolicy(object):
+class HttpAuthPolicy(object):
     """
     An authentication proxy for HTTP Header Auth (Basic, Digest  ...).
 
@@ -29,9 +29,9 @@ class AuthPolicy(object):
     """
 
     adapters = {
-        'dummy': BaseAdapter,
-        'basic': HttpBasicAdapter,
-        'digest': HttpDigestAdapter,
+        'dummy': BaseScheme,
+        'basic': HttpBasicScheme,
+        'digest': HttpDigestScheme,
     }
 
     def __init__(self, get_user_callback):
