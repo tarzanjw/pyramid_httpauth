@@ -1,3 +1,4 @@
+from pyramid.response import Response
 from pyramid_httpauth import wsgi_environ_cache
 
 __author__ = 'tarzan'
@@ -47,3 +48,18 @@ class HttpBasicScheme(BaseScheme):
         if password == pwd_from_request:
             return username
         return None
+
+    def login_required(self, request):
+        www_authenticate = 'Basic realm=%s' \
+                           % self.auth_policy.realm.replace('"', '\\"')
+        r = Response(status='401 Unauthorized',
+                     headers={
+                         'www-authenticate': www_authenticate,
+                     },
+                     json_body={
+                         'errors': {
+                             'code': 401,
+                             'message': 'You have to login to access this API',
+                         }
+                     })
+        return r
