@@ -12,11 +12,12 @@ requires = [
     ]
 
 setup(name='pyramid_httpauth',
-      version='1.0',
+      version='1.0.1',
       description='pyramid_httpauth',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
-        "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.4",
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
@@ -24,7 +25,7 @@ setup(name='pyramid_httpauth',
       author='Tarzan',
       author_email='hoc3010@gmail.com',
       url='https://github.com/tarzanjw/pyramid_httpauth',
-      keywords='web wsgi bfg pylons pyramid',
+      keywords='web pylons pyramid restful auth basic digest',
       packages=['pyramid_httpauth', ],
       include_package_data=True,
       zip_safe=False,
