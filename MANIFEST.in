@@ -1,1 +1,2 @@
 include *.txt
+recursive-include pyramid_httpauth *.py
