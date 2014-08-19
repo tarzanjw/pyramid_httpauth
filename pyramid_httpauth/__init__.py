@@ -11,12 +11,15 @@ def wsgi_environ_cache(*names):
     """
     def decorator(fn):
         def function_wrapper(self, request):
+            scalar = len(names) == 1
             try:
                 rs = [request.environ[cached_key] for cached_key in names]
             except KeyError:
                 rs = fn(self, request)
+                if scalar:
+                    rs = [rs, ]
                 request.environ.update(zip(names, rs))
-            return rs[0] if len(rs) == 1 else rs
+            return rs[0] if scalar else rs
         return function_wrapper
 
     return decorator

@@ -11,7 +11,7 @@ class BaseScheme(object):
 
     def get_authorization_parrams(self, request):
         scheme_name, params = \
-            self.auth_policy._parse_authorization_header(request)
+            self.auth_policy.parse_authorization_header(request)
         print (scheme_name, params)
         return params
 

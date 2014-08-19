@@ -67,7 +67,7 @@ class HttpAuthPolicy(object):
 
     @wsgi_environ_cache(_ENVKEY_PARSED_SCHEME_NAME,
                         _ENVKEY_PARSED_SCHEME_PARAMS)
-    def _parse_authorization_header(self, request):
+    def parse_authorization_header(self, request):
         """
         Get scheme name due to a request
         :param pyramid.request.Request request: request to get scheme name
@@ -91,7 +91,7 @@ class HttpAuthPolicy(object):
         :rtype : schemes.BaseScheme
         """
         scheme_name, scheme_params = \
-            self._parse_authorization_header(request)
+            self.parse_authorization_header(request)
         scheme = self._get_scheme(scheme_name)
         request.environ[_ENVKEY_PARSED_SCHEME] = scheme
         return scheme
