@@ -30,5 +30,4 @@ In you *development.ini*
                                 (used for Digest Auth only)
     * httpauth.domain:          domain string for auth challenge header
     * httpauth.get_password:    name of password-retrieval function
-    * httpauth.get_pwdhash:     name of pwdhash-retrieval function
     * httpauth.groupfinder:     name of group-finder callback function
