@@ -6,6 +6,12 @@ using either HTTP-Digest-Auth or HTTP-Basic-Auth protocol.
 
 With a reference to https://github.com/mozilla-services/pyramid_digestauth/
 
+with extras:
+
+    1. Add support for HTTP Basic Authentication
+    2. Add support for Python 3
+    3. Tested with Python 2.7 and Python 3.4
+
 Usage
 -----
 
