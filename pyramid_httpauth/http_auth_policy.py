@@ -52,15 +52,17 @@ class HttpAuthPolicy(object):
 
     @classmethod
     def create_from_settings(cls, settings=None, prefix='httpauth.', **kwargs):
-        print(settings)
         if settings is not None:
             data = {k[len(prefix):]: v
                     for k, v in settings.items() if k.startswith(prefix)}
         else:
             data = {}
         data.update(kwargs)
+        realm = data.pop('realm', None)
+        assert realm, 'You have to configure a not empty string at ' \
+                      '%srealm to use pyramid_httpauth' % prefix
         data['challenge_scheme_name'] = data.pop('scheme', 'digest')
-        return cls(**data)
+        return cls(realm, **data)
 
     def _get_scheme(self, name):
         """
