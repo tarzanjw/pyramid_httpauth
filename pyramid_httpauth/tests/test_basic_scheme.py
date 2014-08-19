@@ -1,7 +1,5 @@
+#coding=utf-8
 import six
-
-__author__ = 'tarzan'
-
 import unittest
 from pyramid_httpauth import HttpAuthPolicy
 from pyramid_httpauth.schemes.basic import HttpBasicScheme
@@ -27,7 +25,7 @@ class TestHttpBasicScheme(unittest.TestCase):
         http_auth_policy = HttpAuthPolicy('TestHttpBasicScheme', 'basic',
                                           get_password=lambda usr: usr + 'xx')
         scheme = HttpBasicScheme(http_auth_policy)
-        request = make_request(HTTP_AUTHORIZATION='Basic dXNyOk3hu5l0IGNvbiB24buLdA==') # usr:Một con vịt
+        request = make_request(HTTP_AUTHORIZATION='Basic dXNyOk3hu5l0IGNvbiB24buLdA==')
         self.assertEqual(scheme.unauthenticated_userid(request), 'usr')
         self.assertIsNone(scheme.authenticated_userid(request))
 

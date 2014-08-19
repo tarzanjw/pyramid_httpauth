@@ -56,4 +56,7 @@ def includeme(config):
 
     :type config: pyramid.config.Configurator
     """
-    pass
+    auth_policy = HttpAuthPolicy.create_from_settings(
+        settings=config.get_settings())
+    config.set_authentication_policy(auth_policy)
+    config.add_forbidden_view(auth_policy.forbidden)

@@ -1,6 +1,6 @@
 __author__ = 'tarzan'
 
-import re
+import pyramid.util
 from pyramid.response import Response
 from pyramid.security import Authenticated, Everyone
 from pyramid.httpexceptions import HTTPBadRequest
@@ -23,17 +23,24 @@ class HttpAuthPolicy(object):
     """
 
     _scheme_classes = {
-        'basic': schemes.BaseScheme,
-        # 'digest': HttpDigestScheme,
+        None: schemes.NoneScheme,
+        'basic': schemes.HttpBasicScheme,
+        'digest': schemes.HttpDigestScheme,
     }
 
-    _scheme_instances = {}
-
     def __init__(self, realm, challenge_scheme_name='digest', get_password=None, groupfinder=None, **kwargs):
+        maybe_resolve = pyramid.util.DottedNameResolver(None).maybe_resolve
+        get_password = maybe_resolve(get_password)
+        groupfinder = maybe_resolve(groupfinder)
+        assert challenge_scheme_name is not None
         if get_password is None:
             get_password = lambda x: None
+        else:
+            assert callable(get_password)
         if groupfinder is None:
             groupfinder = lambda x: None
+        else:
+            assert callable(groupfinder)
 
         self.realm = realm
         self.challenge_scheme_name = challenge_scheme_name
@@ -41,12 +48,19 @@ class HttpAuthPolicy(object):
         self.groupfinder = groupfinder
 
         self._kwargs = kwargs
+        self._scheme_instances = {}
 
     @classmethod
-    def create_from_settings(cls, settings, prefix='httpauth.'):
-        kwargs = {k[len(prefix):]: v for k, v in settings.items() if k.startswith(prefix)}
-        kwargs['challenge_scheme_name'] = kwargs.pop('scheme', 'digest')
-        return cls(kwargs)
+    def create_from_settings(cls, settings=None, prefix='httpauth.', **kwargs):
+        print(settings)
+        if settings is not None:
+            data = {k[len(prefix):]: v
+                    for k, v in settings.items() if k.startswith(prefix)}
+        else:
+            data = {}
+        data.update(kwargs)
+        data['challenge_scheme_name'] = data.pop('scheme', 'digest')
+        return cls(**data)
 
     def _get_scheme(self, name):
         """
@@ -61,7 +75,7 @@ class HttpAuthPolicy(object):
             except KeyError:
                 raise HTTPBadRequest('HTTP authentication scheme "%s" is '
                                      'not supported' % name)
-            scheme = cls(self, self._kwargs)
+            scheme = cls(self, **self._kwargs)
             self._scheme_instances[name] = scheme
             return scheme
 
@@ -105,7 +119,8 @@ class HttpAuthPolicy(object):
     @wsgi_environ_cache('httpauth.authenticated_userid')
     def authenticated_userid(self, request):
         """Get the authenticated username for this request"""
-        return self._get_scheme_for_request(request).authenticated_userid()
+        return self._get_scheme_for_request(request).\
+            authenticated_userid(request)
 
     @wsgi_environ_cache('httpauth.effective_principals')
     def effective_principals(self, request):
@@ -131,6 +146,7 @@ class HttpAuthPolicy(object):
         return ()
 
     def login_required(self, request):
+        print(self.challenge_scheme_name)
         scheme = self._get_scheme(self.challenge_scheme_name)
         return scheme.login_required(request)
 

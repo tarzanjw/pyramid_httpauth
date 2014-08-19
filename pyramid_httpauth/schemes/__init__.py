@@ -8,11 +8,11 @@ class BaseScheme(object):
         :return:
         """
         self.auth_policy = auth_policy
+        self.realm = auth_policy.realm
 
     def get_authorization_parrams(self, request):
         scheme_name, params = \
             self.auth_policy.parse_authorization_header(request)
-        print (scheme_name, params)
         return params
 
     def unauthenticated_userid(self, request):
@@ -23,3 +23,15 @@ class BaseScheme(object):
 
     def login_required(self, request):
         raise NotImplementedError()
+
+
+class NoneScheme(BaseScheme):
+    def unauthenticated_userid(self, request):
+        return None
+
+    def authenticated_userid(self, request):
+        return None
+
+
+from .basic import HttpBasicScheme
+from .digest import HttpDigestScheme

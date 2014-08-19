@@ -9,25 +9,7 @@ import wsgiref.util
 from pyramid_httpauth.schemes.digest import utils
 import os
 from . import make_request
-
-
-class EasyNonceManager(object):
-    """NonceManager that thinks everything is valid."""
-
-    def generate_nonce(self, request):
-        return "aaa"
-
-    def is_valid_nonce(self, nonce, request):
-        return True
-
-    def get_next_nonce(self, nonce, request):
-        return nonce + "a"
-
-    def get_nonce_count(self, nonce):
-        return None
-
-    def set_nonce_count(self, nonce, nc):
-        return None
+from .test_http_auth_policy import EasyNonceManager
 
 
 def get_challenge(scheme, request):
@@ -73,6 +55,7 @@ def build_response(params, request, username, password, **kwds):
 
 
 class TestHttpDigestScheme(unittest.TestCase):
+
     def test_without_authorization_header(self):
         http_auth_policy = HttpAuthPolicy('TestHttpDigestScheme', 'digest')
         scheme = HttpDigestScheme(http_auth_policy)

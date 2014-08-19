@@ -26,6 +26,8 @@ class HttpBasicScheme(BaseScheme):
                 if six.PY3:
                     _token = _token.decode('utf-8')
                 username, password = _token.split(':', 1)
+                if six.PY2:
+                    password = password.decode('utf-8')
             except (ValueError, TypeError):
                 username, password = None, None
         return username, password

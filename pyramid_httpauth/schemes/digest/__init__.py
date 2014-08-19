@@ -3,13 +3,9 @@ from pyramid_httpauth import wsgi_environ_cache
 from pyramid_httpauth.schemes.digest import noncemanager
 import logging
 from .. import BaseScheme
-import base64
-import hashlib
 from pyramid.response import Response
-import unicodedata
+import pyramid.util
 import binascii
-import time
-import struct
 import re
 from . import utils
 
@@ -42,15 +38,17 @@ class HttpDigestScheme(BaseScheme):
                  qop=None,
                  nonce_manager=None,
                  **kwargs):
-        super().__init__(auth_policy, **kwargs)
+        super(HttpDigestScheme, self).__init__(auth_policy, **kwargs)
+        maybe_resolve = pyramid.util.DottedNameResolver(None).maybe_resolve
+        nonce_manager = maybe_resolve(nonce_manager)
         if nonce_manager is None:
             nonce_manager = noncemanager.SignedNonceManager()
+        elif callable(nonce_manager):
+            nonce_manager = nonce_manager()
 
-        self.realm = self.auth_policy.realm
         self.domain = domain
         self.qop = qop
         self.nonce_manager = nonce_manager
-
 
     @wsgi_environ_cache('pyramid_httpauth.scheme.digest.auth_params')
     def _parse_authorization_token(self, request):
