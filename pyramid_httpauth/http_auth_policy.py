@@ -5,6 +5,7 @@ from pyramid.response import Response
 from pyramid.security import Authenticated, Everyone
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid_httpauth import schemes, wsgi_environ_cache
+import logging
 
 # WSGI environ key used to cache parsed scheme name and params.
 _ENVKEY_PARSED_SCHEME_NAME = "pyramid_httpauth.parsed_scheme_name"
@@ -12,6 +13,15 @@ _ENVKEY_PARSED_SCHEME_PARAMS = "pyramid_httpauth.parsed_scheme_params"
 
 # WSGI environ key used to cache parsed scheme instance
 _ENVKEY_PARSED_SCHEME = "pyramid_httpauth.parsed_scheme"
+
+
+def _default_get_pwd_callback(username):
+    logging.warning('`httpauth.get_password` has not been implemented yet.')
+    return None
+
+def _default_group_finder_callback(username):
+    logging.warning('`httpauth.groupfinder` has not been implemented yet.')
+    return None
 
 
 class HttpAuthPolicy(object):
@@ -34,11 +44,11 @@ class HttpAuthPolicy(object):
         groupfinder = maybe_resolve(groupfinder)
         assert challenge_scheme_name is not None
         if get_password is None:
-            get_password = lambda x: None
+            get_password = _default_get_pwd_callback
         else:
             assert callable(get_password)
         if groupfinder is None:
-            groupfinder = lambda x: None
+            groupfinder = _default_group_finder_callback
         else:
             assert callable(groupfinder)
 
@@ -69,12 +79,16 @@ class HttpAuthPolicy(object):
         Create a scheme instance due to its name
         :rtype : schemes.BaseScheme
         """
+        if name:
+            name = name.lower()
         try:
             return self._scheme_instances[name]
         except KeyError:
             try:
                 cls = self._scheme_classes[name]
             except KeyError:
+                logging.warning('HTTP authentication scheme "%s" is '
+                                'not supported', name)
                 raise HTTPBadRequest('HTTP authentication scheme "%s" is '
                                      'not supported' % name)
             scheme = cls(self, **self._kwargs)
@@ -148,7 +162,6 @@ class HttpAuthPolicy(object):
         return ()
 
     def login_required(self, request):
-        print(self.challenge_scheme_name)
         scheme = self._get_scheme(self.challenge_scheme_name)
         return scheme.login_required(request)
 
