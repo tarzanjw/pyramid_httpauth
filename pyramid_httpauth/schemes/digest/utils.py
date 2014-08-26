@@ -199,7 +199,6 @@ def calculate_digest_response(params, request, pwdhash=None, password=None):
         pwdhash = calculate_pwdhash(username, password, realm)
     reqhash = calculate_reqhash(params, request)
     qop = params.get("qop")
-    print(qop)
     if qop is None:
         data = "%s:%s:%s" % (pwdhash, params["nonce"], reqhash)
     else:
