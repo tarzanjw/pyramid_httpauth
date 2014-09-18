@@ -1,5 +1,14 @@
+1.0.5
+-----
+
+* Fix bug: SignedNonceManager does not work properly at multi processes if its
+  secret key is not configured.
+
+  1. Add config `httpauth.nonce_manager_secret` to configure this value.
+  2. Log a critical message if this value is not configured.
+
 1.0
------------
+---
 
 * Packaging
 * Initial version

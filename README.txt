@@ -28,6 +28,9 @@ In you *development.ini*
                                 (used for Digest Auth only)
     * httpauth.nonce_manager:   name of NonceManager class to use
                                 (used for Digest Auth only)
+    * httpauth.nonce_manager_secret: The secret key used to sign on nounce, used
+                                     for built-in SignedNonceManager (if httpauth.nonce_manager
+                                     is not provided).
     * httpauth.domain:          domain string for auth challenge header
     * httpauth.get_password:    name of password-retrieval function
     * httpauth.groupfinder:     name of group-finder callback function

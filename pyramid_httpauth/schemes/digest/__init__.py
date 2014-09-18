@@ -42,7 +42,10 @@ class HttpDigestScheme(BaseScheme):
         maybe_resolve = pyramid.util.DottedNameResolver(None).maybe_resolve
         nonce_manager = maybe_resolve(nonce_manager)
         if nonce_manager is None:
-            nonce_manager = noncemanager.SignedNonceManager()
+            secret = kwargs.get('nonce_manager_secret', None)
+            if secret is not None:
+                secret = secret.encode('ascii')
+            nonce_manager = noncemanager.SignedNonceManager(secret=secret)
         elif callable(nonce_manager):
             nonce_manager = nonce_manager()
 

@@ -48,6 +48,7 @@ import threading
 from hashlib import md5
 import six
 from . import utils
+import logging
 
 if six.PY3:
     xrange = range
@@ -146,6 +147,9 @@ class SignedNonceManager(object):
         # Default secret is a random bytestring.
         if secret is None:
             secret = os.urandom(16)
+            logging.getLogger(__name__).critical('A random secret will cause '
+                                                 'problems at multi processes '
+                                                 'server such as gunicorn')
         # Default timeout is five minutes.
         if timeout is None:
             timeout = 5 * 60

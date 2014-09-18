@@ -340,3 +340,16 @@ class TestDigestAuthHelpers(unittest.TestCase):
         self.failIf(utils.validate_digest_uri(params, request, msie_hack=False))
         params["uri"] = "/wrong/page"
         self.failIf(utils.validate_digest_uri(params, request))
+
+    def test_a_custom_case_by_manual(self):
+        request = make_request(SCRIPT_NAME="/api", PATH_INFO="/cat/438/family")
+        """:type : pyramid.testing.DummyRequest"""
+        params = dict(scheme="Digest", realm="VNPDC", username="dmx",
+                      nonce="3490728e9:DnHXJy/sjddhh4sSJH4Xeg==",
+                      response="ef3a8cdd6c0400468cdc8b867fbcdfb3",
+                      algorithm="MD5",
+                      qop="auth",
+                      uri="/api/cat/438/family",
+                      cnonce="4a5a1d0942f54daa",
+                      nc="00000001")
+        self.assertTrue(utils.validate_digest_uri(params, request))

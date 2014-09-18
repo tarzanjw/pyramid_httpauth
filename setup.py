@@ -12,7 +12,7 @@ requires = [
     ]
 
 setup(name='pyramid_httpauth',
-      version='1.0.4',
+      version='1.0.5',
       description='pyramid_httpauth',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
