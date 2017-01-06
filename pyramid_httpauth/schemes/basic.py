@@ -1,11 +1,11 @@
 from pyramid.response import Response
 from pyramid_httpauth import wsgi_environ_cache
 
-__author__ = 'tarzan'
-
 from . import BaseScheme
 import base64
 import six
+
+__author__ = 'tarzan'
 
 # WSGI environ key used to cache parsed http basic scheme username and password.
 _ENVKEY_PARSED_BASIC_SCHEME_USERNAME = "pyramid_httpauth.scheme.basic.username"
@@ -17,7 +17,7 @@ class HttpBasicScheme(BaseScheme):
     @wsgi_environ_cache(_ENVKEY_PARSED_BASIC_SCHEME_USERNAME,
                         _ENVKEY_PARSED_BASIC_SCHEME_PASSWORD)
     def _parse_authorization_token(self, request):
-        params = self.get_authorization_parrams(request)
+        params = self.get_authorization_params(request)
         if params is None:
             username, password = None, None
         else:

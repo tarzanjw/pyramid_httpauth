@@ -1,3 +1,5 @@
+from .http_auth_policy import HttpAuthPolicy
+
 __author__ = 'tarzan'
 
 
@@ -25,9 +27,6 @@ def wsgi_environ_cache(*names):
     return decorator
 
 
-from .http_auth_policy import HttpAuthPolicy
-
-
 def includeme(config):
     """Include default httpauth settings into a pyramid config.
 
@@ -36,7 +35,7 @@ def includeme(config):
 
         config.include("pyramid_httpauth")
 
-    This will activate a HttpAuthenticationplicy instance with settings taken
+    This will activate a HttpAuthPolicy instance with settings taken
     from the the application settings as follows:
 
         * httpauth.scheme:          default scheme to challenge client (digest
