@@ -1,11 +1,11 @@
-__author__ = 'tarzan'
-
 import pyramid.util
 from pyramid.response import Response
 from pyramid.security import Authenticated, Everyone
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid_httpauth import schemes, wsgi_environ_cache
 import logging
+
+__author__ = 'tarzan'
 
 # WSGI environ key used to cache parsed scheme name and params.
 _ENVKEY_PARSED_SCHEME_NAME = "pyramid_httpauth.parsed_scheme_name"
@@ -18,6 +18,7 @@ _ENVKEY_PARSED_SCHEME = "pyramid_httpauth.parsed_scheme"
 def _default_get_pwd_callback(username):
     logging.warning('`httpauth.get_password` has not been implemented yet.')
     return None
+
 
 def _default_group_finder_callback(username):
     logging.warning('`httpauth.groupfinder` has not been implemented yet.')

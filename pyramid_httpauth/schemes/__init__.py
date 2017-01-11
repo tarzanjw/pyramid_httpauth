@@ -1,5 +1,6 @@
 __author__ = 'tarzan'
 
+
 class BaseScheme(object):
     def __init__(self, auth_policy, **kwargs):
         """
@@ -10,7 +11,7 @@ class BaseScheme(object):
         self.auth_policy = auth_policy
         self.realm = auth_policy.realm
 
-    def get_authorization_parrams(self, request):
+    def get_authorization_params(self, request):
         scheme_name, params = \
             self.auth_policy.parse_authorization_header(request)
         return params
